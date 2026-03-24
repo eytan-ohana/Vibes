@@ -127,7 +127,22 @@ ARCHITECTURE
 - Prefer clean page composition from templates, partials, static assets, and well-scoped backend routes.
 - Separate HTML page routes from JSON/API routes clearly.
 
-8. Be implementation-minded and pragmatic.
+8. Maintain clear API contracts.
+- Any JSON/API endpoint must have a clear and intentional contract.
+- Define request parameters, response shapes, status codes, and error behavior explicitly.
+- Keep API contracts stable and predictable unless there is a strong reason to change them.
+- Prefer consistent request, response, and error formats across the app.
+- If a feature depends on frontend-to-backend interaction, document that interaction clearly in the design docs.
+- Do not create vague or ad hoc endpoint behavior that forces the frontend to guess how the API works.
+- Favor explicit schemas, predictable validation, and clear separation of responsibilities between frontend behavior and backend logic.
+
+When implementing APIs:
+- prefer explicit and documented request/response models
+- keep error responses structured and predictable
+- avoid inconsistent field naming across endpoints
+- make the contract easy for another engineer or LLM to understand and extend later
+
+9. Be implementation-minded and pragmatic.
 - Choose simple, strong solutions.
 - Avoid unnecessary abstractions.
 - Add complexity only when it buys real clarity, flexibility, or product value.
@@ -141,7 +156,7 @@ ARCHITECTURE
 DESIGN DOCS AND DOCUMENTATION DISCIPLINE
 ==================================================
 
-9. Create and maintain design documentation alongside the app.
+10. Create and maintain design documentation alongside the app.
 - The repo must contain a Docs/ folder near the app code.
 - At minimum create:
   - Docs/README.md
@@ -156,13 +171,14 @@ The design docs should explain:
 - frontend structure
 - backend responsibilities
 - data flow
+- API contracts where relevant
 - caching approach where relevant
 - keyboard shortcuts and interaction conventions where relevant
 - theme structure and where theme tokens live
 - file map / code organization
 - important design decisions and constraints
 
-10. Keep docs synchronized with reality.
+11. Keep docs synchronized with reality.
 - The docs are part of the product, not optional notes.
 - Any time you add or significantly change a route, page, workflow, API contract, storage key, environment variable, major UX behavior, file organization, keyboard shortcut system, theming system, or architectural pattern, update the docs in the same work.
 - The docs must remain truthful and useful, not aspirational fiction.
@@ -173,20 +189,20 @@ The design docs should explain:
 WORKING WITH EXISTING CODE
 ==================================================
 
-11. Design before and during implementation.
-- Before making major changes, inspect the current repo structure, docs, templates, CSS, JS, and route organization.
+12. Design before and during implementation.
+- Before making major changes, inspect the current repo structure, docs, templates, CSS, JS, route organization, and existing API patterns.
 - Infer the intended architecture and visual language before introducing new patterns.
-- Do not hallucinate existing files, routes, components, styles, or behaviors. Inspect the repo first.
+- Do not hallucinate existing files, routes, components, styles, behaviors, or API contracts. Inspect the repo first.
 - If the implementation and docs conflict:
   - preserve correct working behavior unless there is a strong reason to change it
   - fix the docs when the code is right
   - fix the code when the docs express the better intended design
-- Do not introduce random page structures, styling patterns, or ad hoc architecture.
+- Do not introduce random page structures, styling patterns, ad hoc architecture, or inconsistent API behavior.
 
-12. Preserve consistency across future development.
+13. Preserve consistency across future development.
 - Treat the design docs and the app’s current UI language as the contract for future work.
 - New features should feel like natural extensions of the app, not bolt-ons.
-- Reuse established layout structure, component patterns, page framing, interaction conventions, and tone.
+- Reuse established layout structure, component patterns, page framing, interaction conventions, tone, and API conventions.
 
 ==================================================
 DECISION-MAKING RULES
@@ -215,6 +231,12 @@ When adding a significant feature:
 - implement in a way that matches the documented architecture
 - update the doc again to reflect what was actually built
 
+When designing or changing an API:
+- prefer explicitness over cleverness
+- prefer stable contracts over incidental behavior
+- prefer consistent naming and structured errors
+- update the documentation in the same work
+
 ==================================================
 COMMUNICATION RULES
 ==================================================
@@ -230,7 +252,7 @@ COMMUNICATION RULES
 
 Before coding, first state briefly:
 1. what you believe the user is actually trying to achieve
-2. any part of the request that seems weak from a UX or architectural perspective
+2. any part of the request that seems weak from a UX, architectural, or API-design perspective
 3. the improved approach you plan to take
 4. which docs you will create or update
 
@@ -241,12 +263,12 @@ WORKFLOW
 ==================================================
 
 1. Inspect the current repo/app structure and existing docs.
-2. Read the current templates, CSS, JS, and endpoints before introducing changes.
+2. Read the current templates, CSS, JS, endpoints, and existing API patterns before introducing changes.
 3. Create or update the relevant design docs before major implementation when needed.
-4. Implement the feature in a way that matches the app’s architecture and visual language.
+4. Implement the feature in a way that matches the app’s architecture, API conventions, and visual language.
 5. Refactor surrounding code when necessary to keep the solution clean and cohesive.
 6. Update the docs again so they reflect what was actually built.
-7. Sanity check the result for usability, consistency, accessibility, and maintainability.
+7. Sanity check the result for usability, consistency, accessibility, maintainability, and API clarity.
 
 ==================================================
 OUTPUT EXPECTATIONS
@@ -260,6 +282,7 @@ Produce:
 - discoverable keyboard shortcuts
 - optional vim-style power-user navigation that does not harm normal usage
 - maintainable FastAPI + Jinja architecture
+- clear and documented API contracts
 - accurate and updated design docs
 - features that feel integrated into the app rather than bolted on
 
@@ -278,7 +301,6 @@ Constraints / preferences:
 
 Design guidance:
 - Stay consistent with the existing app’s visual language and architecture.
-- Reuse established shell, layout, and component patterns where possible.
+- Reuse established shell, layout, component, and API patterns where possible.
 - Update the Docs/ folder as part of this work.
 - If this introduces a significant new feature area, create a dedicated design/plan doc for it and cross-link it appropriately.
-
