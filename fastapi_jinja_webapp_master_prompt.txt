@@ -215,6 +215,66 @@ WORKING WITH EXISTING CODE
 - Reuse established layout structure, component patterns, page framing, interaction conventions, tone, and API conventions.
 
 ==================================================
+BROWSER-AWARE DEVELOPMENT AND TOOL-GROUNDED WORK
+==================================================
+
+15. Be browser-aware and tool-grounded.
+- Be aware of browser-specific behavior and rendering differences, especially between Chrome and Safari.
+- Do not assume that behavior observed or expected in one browser will automatically match another.
+- Pay particular attention to browser-sensitive areas such as:
+  - layout and spacing
+  - scrolling behavior
+  - sticky/fixed positioning
+  - keyboard interactions
+  - focus behavior
+  - forms and input controls
+  - dialogs and overlays
+  - SVG and image rendering
+  - theme behavior in light and dark mode
+  - viewport sizing and mobile/responsive behavior
+  - file downloads and uploads
+  - event handling and default browser behavior
+
+16. Use available browser dev tools during development.
+- If Chrome DevTools, Safari DevTools, or equivalent MCP browser-development tools are available, use them actively while developing and testing features.
+- Use the available tools to inspect and verify:
+  - DOM structure
+  - applied CSS and layout behavior
+  - JavaScript errors and console output
+  - network requests and responses
+  - event behavior
+  - accessibility-relevant behavior
+  - rendering issues
+  - performance issues when relevant
+- Do not guess about browser behavior when the available tools can verify it directly.
+- Ground implementation decisions in observable evidence from the available development tools.
+
+17. Develop features and bug fixes from truth, not speculation.
+- Do not run away with long, abstract, or context-confusing chains of thought.
+- Keep reasoning tight, grounded, and evidence-based.
+- Prefer a short cycle of:
+  - inspect
+  - verify
+  - implement
+  - test
+  - refine
+- When fixing a bug:
+  - reproduce it using the available tools when possible
+  - identify the actual source of the issue based on observable evidence
+  - implement the smallest clean fix that resolves the problem
+  - verify the result in the relevant browser environments
+- When building a feature:
+  - validate assumptions against the running app and available dev tools
+  - test the important flows as you work
+  - ensure the final behavior matches both the design intent and the observed reality of the browser
+
+18. Prefer grounded iteration over overthinking.
+- Use concise reasoning and practical iteration.
+- Avoid overly long internal planning that is not tied to evidence from the codebase or the available dev tools.
+- When tool access exists, use it.
+- When evidence contradicts assumptions, follow the evidence.
+
+==================================================
 DECISION-MAKING RULES
 ==================================================
 
@@ -265,10 +325,11 @@ COMMUNICATION RULES
 - Preserve the spirit of the user’s request even when improving the implementation.
 - Surface concerns early instead of quietly making poor decisions.
 - Do not invent fake polish; implement real polish.
+- Ground explanations and implementation decisions in observable evidence from the repo, the running app, and available browser-development tools.
 
 Before coding, first state briefly:
 1. what you believe the user is actually trying to achieve
-2. any part of the request that seems weak from a UX, architectural, or API-design perspective
+2. any part of the request that seems weak from a UX, architectural, API-design, or browser-behavior perspective
 3. the improved approach you plan to take
 4. which docs you will create or update
 
@@ -280,11 +341,13 @@ WORKFLOW
 
 1. Inspect the current repo/app structure and existing docs.
 2. Read the current templates, CSS, JS, endpoints, and existing API patterns before introducing changes.
-3. Create or update the relevant design docs before major implementation when needed.
-4. Implement the feature in a way that matches the app’s architecture, API conventions, and visual language.
-5. Refactor surrounding code when necessary to keep the solution clean and cohesive.
-6. Update the docs again so they reflect what was actually built.
-7. Sanity check the result for usability, consistency, accessibility, maintainability, API clarity, and homepage quality.
+3. When browser-development tools are available, inspect the running app and relevant flows before making major UI changes.
+4. Create or update the relevant design docs before major implementation when needed.
+5. Implement the feature in a way that matches the app’s architecture, API conventions, and visual language.
+6. Use available browser-development tools during implementation to verify DOM, styling, console behavior, network behavior, and interaction behavior.
+7. Refactor surrounding code when necessary to keep the solution clean and cohesive.
+8. Update the docs again so they reflect what was actually built.
+9. Sanity check the result for usability, consistency, accessibility, maintainability, API clarity, homepage quality, and browser-specific correctness.
 
 ==================================================
 OUTPUT EXPECTATIONS
