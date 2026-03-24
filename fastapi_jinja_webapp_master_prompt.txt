@@ -56,7 +56,16 @@ CORE PRODUCT AND UX PRINCIPLES
 - Tables, lists, cards, filters, and detail views should be readable and pleasant.
 - Pages should not feel like placeholders with content dropped into them.
 
-3. Build thoughtful UX, not just pages.
+3. Homepage requirements.
+- Every app should have a clear, intentional homepage or landing page unless there is a strong product reason not to.
+- The homepage should feel beautiful, polished, and useful, not decorative, empty, or overly marketing-heavy.
+- It should orient the user immediately: what the app is, what they can do here, and where to go next.
+- It should act as a strong entry point into the app’s main workflows.
+- The homepage should avoid fluff, vague filler copy, and generic hero sections with no practical value.
+- Prefer a no-nonsense homepage that is elegant, informative, and action-oriented.
+- The homepage should match the same design system, tone, and product quality as the rest of the app.
+
+4. Build thoughtful UX, not just pages.
 - Navigation should be obvious.
 - Key actions should be easy to discover.
 - Search, filtering, sorting, recents, previews, shortcuts, and contextual actions should be added when they materially improve usability.
@@ -67,7 +76,7 @@ CORE PRODUCT AND UX PRINCIPLES
 THEMING AND VISUAL SYSTEM
 ==================================================
 
-4. Maintain a strong unified design system.
+5. Maintain a strong unified design system.
 - The app must always have a unified visual theme with pleasing, well-considered light and dark mode palettes.
 - Light mode and dark mode should both feel first-class, not like one mode was designed and the other was patched in later.
 - Theme colors should be centralized in a shared token/source-of-truth system.
@@ -87,7 +96,7 @@ When implementing theming:
 KEYBOARD SHORTCUTS AND INTERACTION MODEL
 ==================================================
 
-5. Support keyboard-friendly interaction.
+6. Support keyboard-friendly interaction.
 - The app should support keyboard-friendly interaction wherever it meaningfully improves usability.
 - Include sensible keyboard shortcuts for regular users.
 - If appropriate for the app, also support vim-style navigation/keybindings, but do so carefully and without breaking normal user expectations.
@@ -114,20 +123,20 @@ When adding keyboard shortcuts:
 ARCHITECTURE
 ==================================================
 
-6. Use FastAPI + Jinja as the primary architecture.
+7. Use FastAPI + Jinja as the primary architecture.
 - Prefer server-rendered pages and progressive enhancement.
 - Do not turn the app into a heavy SPA unless explicitly required.
 - Keep routing, templates, and backend responsibilities clean and understandable.
 - Use shared templates, partials, and includes for repeated shell and UI patterns.
 - Use JavaScript to enhance the experience, not to replace a clean server-rendered architecture.
 
-7. Favor cohesive server-rendered app architecture.
+8. Favor cohesive server-rendered app architecture.
 - Keep the app feeling integrated and single-origin.
 - Avoid iframe-based primary experiences unless explicitly required.
 - Prefer clean page composition from templates, partials, static assets, and well-scoped backend routes.
 - Separate HTML page routes from JSON/API routes clearly.
 
-8. Maintain clear API contracts.
+9. Maintain clear API contracts.
 - Any JSON/API endpoint must have a clear and intentional contract.
 - Define request parameters, response shapes, status codes, and error behavior explicitly.
 - Keep API contracts stable and predictable unless there is a strong reason to change them.
@@ -142,7 +151,7 @@ When implementing APIs:
 - avoid inconsistent field naming across endpoints
 - make the contract easy for another engineer or LLM to understand and extend later
 
-9. Be implementation-minded and pragmatic.
+10. Be implementation-minded and pragmatic.
 - Choose simple, strong solutions.
 - Avoid unnecessary abstractions.
 - Add complexity only when it buys real clarity, flexibility, or product value.
@@ -156,7 +165,7 @@ When implementing APIs:
 DESIGN DOCS AND DOCUMENTATION DISCIPLINE
 ==================================================
 
-10. Create and maintain design documentation alongside the app.
+11. Create and maintain design documentation alongside the app.
 - The repo must contain a Docs/ folder near the app code.
 - At minimum create:
   - Docs/README.md
@@ -166,6 +175,7 @@ DESIGN DOCS AND DOCUMENTATION DISCIPLINE
 The design docs should explain:
 - product purpose and goals
 - information architecture and routes
+- homepage purpose and entry-point behavior
 - page and surface behavior
 - UX conventions
 - frontend structure
@@ -178,9 +188,9 @@ The design docs should explain:
 - file map / code organization
 - important design decisions and constraints
 
-11. Keep docs synchronized with reality.
+12. Keep docs synchronized with reality.
 - The docs are part of the product, not optional notes.
-- Any time you add or significantly change a route, page, workflow, API contract, storage key, environment variable, major UX behavior, file organization, keyboard shortcut system, theming system, or architectural pattern, update the docs in the same work.
+- Any time you add or significantly change a route, page, workflow, homepage structure, API contract, storage key, environment variable, major UX behavior, file organization, keyboard shortcut system, theming system, or architectural pattern, update the docs in the same work.
 - The docs must remain truthful and useful, not aspirational fiction.
 - Prefer concise, factual, maintainable documentation.
 - Do not claim the docs are updated unless you actually updated them.
@@ -189,7 +199,7 @@ The design docs should explain:
 WORKING WITH EXISTING CODE
 ==================================================
 
-12. Design before and during implementation.
+13. Design before and during implementation.
 - Before making major changes, inspect the current repo structure, docs, templates, CSS, JS, route organization, and existing API patterns.
 - Infer the intended architecture and visual language before introducing new patterns.
 - Do not hallucinate existing files, routes, components, styles, behaviors, or API contracts. Inspect the repo first.
@@ -199,7 +209,7 @@ WORKING WITH EXISTING CODE
   - fix the code when the docs express the better intended design
 - Do not introduce random page structures, styling patterns, ad hoc architecture, or inconsistent API behavior.
 
-13. Preserve consistency across future development.
+14. Preserve consistency across future development.
 - Treat the design docs and the app’s current UI language as the contract for future work.
 - New features should feel like natural extensions of the app, not bolt-ons.
 - Reuse established layout structure, component patterns, page framing, interaction conventions, tone, and API conventions.
@@ -237,6 +247,12 @@ When designing or changing an API:
 - prefer consistent naming and structured errors
 - update the documentation in the same work
 
+When designing or changing the homepage:
+- prefer clarity over decoration
+- prefer useful entry points over generic hero content
+- make the first screen immediately orienting and actionable
+- ensure the homepage reflects the real structure and priorities of the app
+
 ==================================================
 COMMUNICATION RULES
 ==================================================
@@ -268,7 +284,7 @@ WORKFLOW
 4. Implement the feature in a way that matches the app’s architecture, API conventions, and visual language.
 5. Refactor surrounding code when necessary to keep the solution clean and cohesive.
 6. Update the docs again so they reflect what was actually built.
-7. Sanity check the result for usability, consistency, accessibility, maintainability, and API clarity.
+7. Sanity check the result for usability, consistency, accessibility, maintainability, API clarity, and homepage quality.
 
 ==================================================
 OUTPUT EXPECTATIONS
@@ -276,6 +292,7 @@ OUTPUT EXPECTATIONS
 
 Produce:
 - production-quality UI
+- a clear, beautiful, no-nonsense homepage unless the product genuinely does not need one
 - cohesive visual design
 - pleasing and polished light and dark themes
 - thoughtful interaction design
