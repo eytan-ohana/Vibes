@@ -1,0 +1,6 @@
+
+You must have the `garage38ai` environment active to run any code.
+
+If you run tests you should use pytest AND you cannot pass any additional flags to pytest.
+
+You may only give pytest the file or directory path you want to test. If you pass any additional flags than the test will fail.
