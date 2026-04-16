@@ -366,6 +366,29 @@ WORKFLOW
 7. Sanity check the result for usability, consistency, accessibility, responsiveness, maintainability, API clarity, and data-exploration quality.
 
 ==================================================
+GIT DISCIPLINE
+==================================================
+
+- Before starting any work, create a new feature branch off master:
+    git checkout master && git pull && git checkout -b <descriptive-branch-name>
+  Choose a branch name that describes the work, e.g. `feature/bigtable-viewer-v1`.
+
+- Commit frequently as you work. Each commit should represent one coherent,
+  reviewable unit of progress — not a single monolithic dump at the end and not
+  one commit per file. Good examples:
+    "Add FastAPI app skeleton with Jinja2 shell and static asset structure"
+    "Add copy affordances and recent queries via localStorage"
+    "Add Docs/ with README and Design"
+
+- Write commit messages in imperative mood, present tense. Describe what the
+  commit does and why, not what files changed.
+
+- Do not batch unrelated changes into one commit.
+
+- Do not create a commit for work that is broken or half-finished unless you
+  explicitly call it a WIP commit and explain why in the message.
+
+==================================================
 OUTPUT EXPECTATIONS
 ==================================================
 
