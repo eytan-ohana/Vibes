@@ -2,3 +2,12 @@
 You must have the `garage38ai` conda environment active to run any code.
 If you run tests you should use pytest AND you cannot pass any additional flags to pytest.
 You may only give pytest the file or directory path you want to test. If you pass any additional flags than the test will fail.
+
+If you need to run any of your own scripts using theGarage code you will need to initialize the logger and set the cloud and environment first, like so:
+```python
+from Trax.Cloud.Services.Connector.Logger import LoggerInitializer
+from Trax.Utils.Conf.Configuration import Config
+
+LoggerInitializer.init('Simon')
+Config.set_env_and_cloud(*Config.PROD_AWS)
+```
