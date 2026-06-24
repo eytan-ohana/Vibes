@@ -21,6 +21,16 @@ The deployment file's `executable_path()` points at the app-code entrypoint — 
 it to jump from a deployment to the code it runs (and vice-versa). Jobs are all
 launched via `Trax/Apps/Core/Jobs/Wrapper.py`, which calls your module's `run()`.
 
+### RTFM — Service and API overview docs (supplementary)
+
+`~/dev/RTFM` (also at `https://github.com/trax-retail/RTFM`) contains high-level
+documentation about many of the services in theGarage — purpose, inputs/outputs,
+key concepts, and inter-service relationships.
+
+**Use it as a starting point** when you need to understand what a service does
+before diving into the code. **Do not treat it as authoritative** — docs may be
+stale or incomplete. Always verify against the actual code in `Trax/`.
+
 ## Running code & tests
 
 Always run Python and tests through the `garage38ai` conda env — do **not** rely

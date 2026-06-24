@@ -48,3 +48,11 @@ Defined in `Trax/Deployment/Services/Base.py`, `…/WebServices/`, `…/Jobs/Bas
 - `JobBaseDeployment` (+ `Python38JobBaseDeployment`) — cron jobs (see jobs.md).
 
 Reach for the per-type reference file when adding to or editing one of these.
+
+## RTFM — high-level Service and API docs
+
+`~/dev/RTFM` (GitHub: `https://github.com/trax-retail/RTFM`) has human-written
+overviews of many services and APIs: what they do, their inputs/outputs, and how they fit
+together. Consult it when you need a quick conceptual orientation before reading
+code. **Treat it as a hint, not ground truth** — it may be outdated. Always
+confirm against `Trax/Deployment/` and the app code.
