@@ -32,7 +32,7 @@ file** (how it runs — resources, scaling, scheduling, `executable_path`) from 
   for the `executable_path` of the file you're in.
 - **Deployment base class tells you the type:** `K8SDeployment`(+`MultiProcessUpstartService`)
   → queue service; `KnativeDeployment` / `SimpleAPIDeployment[38]` → API;
-  `JobBaseDeployment` → cron job.
+  `JobBaseDeployment` / `Python38JobBaseDeployment` → cron job.
 
 ## Deployment base classes (shared vocabulary)
 
@@ -45,7 +45,8 @@ Defined in `Trax/Deployment/Services/Base.py`, `…/WebServices/`, `…/Jobs/Bas
 - `Python38Deployment` / `Python3Deployment` — pin the conda env / base image
   (py3.8 = `garage38`, py3.7 = `garage3`). Most new code is 3.8.
 - `KnativeDeployment[38]` / `SimpleAPIDeployment[38]` — API specifics (see apis.md).
-- `JobBaseDeployment` (+ `Python38JobBaseDeployment`) — cron jobs (see jobs.md).
+- `JobBaseDeployment` — cron jobs, but the bare class is **Python 2**; always
+  subclass **`Python38JobBaseDeployment`** for new jobs (see jobs.md).
 
 Reach for the per-type reference file when adding to or editing one of these.
 

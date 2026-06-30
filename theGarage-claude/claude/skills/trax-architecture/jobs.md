@@ -5,10 +5,25 @@ that schedules it + a module exposing `run(*args)`.
 
 ## Layout
 
-- **Deployment:** `Trax/Deployment/Jobs/<Name>.py` — subclass of `JobBaseDeployment`
-  (or `Python38JobBaseDeployment`). Defines `executable_path()` and a `jobs_info`
-  property giving the schedule + resources. Example:
-  `Trax/Deployment/Jobs/AltriaUSFacingReport.py`.
+- **Deployment:** `Trax/Deployment/Jobs/<Name>.py` — subclass of
+  **`Python38JobBaseDeployment`**. Defines `executable_path()` and a `jobs_info`
+  property giving the schedule + resources.
+
+  > ⚠️ **Always use `Python38JobBaseDeployment` for new jobs.** The bare
+  > `JobBaseDeployment` runs under the legacy **Python 2** image — do not use it.
+  > `Python38JobBaseDeployment` (`JobBaseDeployment` + `Python38Deployment`) pins
+  > the Python 3.8 base image. (`Python3JobBaseDeployment` exists too, but prefer
+  > the 3.8 variant.) Some old jobs still subclass `JobBaseDeployment` directly —
+  > don't copy them; treat them as needing migration, not as the pattern.
+
+  ```python
+  from Trax.Deployment.Jobs.Base import Python38JobBaseDeployment
+
+  class MyReportJobDeployment(Python38JobBaseDeployment):
+      @classmethod
+      def executable_path(cls):
+          return 'Trax/Apps/Jobs/…/MyReport.py'
+  ```
 - **App code:** `Trax/Apps/Jobs/…/<Name>.py` — must define a module-level
   `run(*args)`.
 
