@@ -55,3 +55,24 @@ live under `Trax/Apps/APIs/<Name>/…/<X>Controller/v<N>/`.
 
 **To find the code behind an endpoint:** style A → the router modules
 `include_router`'d in `Server.py`; style B → the classes in `controller_paths`.
+
+## Deployed URLs (querying a live API)
+
+APIs are deployed to two envs (`INT`, `PROD`) and, per the deployment file's
+`supported_clouds()`, to `AWS`, `GCP`, or both. Every deployed API is reachable
+**only from behind the VPN** at:
+
+```
+http://{apiname}.knative-{cloudkey}-{envkey}.trax-cloud.com/
+```
+
+- `apiname` — the name of the API's deployment file (`Trax/Deployment/Services/<Name>.py`).
+- `cloudkey` — `eks` for AWS, `gke` for GCP.
+- `envkey` — `int` or `prod`.
+
+Example — `TritonInferenceAPI` on PROD/AWS:
+`http://TritonInferenceAPI.knative-eks-prod.trax-cloud.com/`
+
+When asked to query a deployed API, build the URL from the deployment file name
+plus the requested env/cloud. If the env and cloud aren't specified, ask which
+to target (and confirm the cloud is in `supported_clouds()`).
