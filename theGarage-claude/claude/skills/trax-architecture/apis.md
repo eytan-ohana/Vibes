@@ -66,12 +66,12 @@ APIs are deployed to two envs (`INT`, `PROD`) and, per the deployment file's
 http://{apiname}.knative-{cloudkey}-{envkey}.trax-cloud.com/
 ```
 
-- `apiname` — the name of the API's deployment file (`Trax/Deployment/Services/<Name>.py`).
+- `apiname` — the name of the API's deployment file (`Trax/Deployment/Services/<Name>.py`), **lowercased**.
 - `cloudkey` — `eks` for AWS, `gke` for GCP.
 - `envkey` — `int` or `prod`.
 
 Example — `TritonInferenceAPI` on PROD/AWS:
-`http://TritonInferenceAPI.knative-eks-prod.trax-cloud.com/`
+`http://tritoninferenceapi.knative-eks-prod.trax-cloud.com/`
 
 When asked to query a deployed API, build the URL from the deployment file name
 plus the requested env/cloud. If the env and cloud aren't specified, ask which
