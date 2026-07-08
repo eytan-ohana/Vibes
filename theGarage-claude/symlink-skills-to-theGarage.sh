@@ -38,5 +38,23 @@ link() {
 
 echo "Setting up Claude config symlinks for theGarage..."
 link "$SCRIPT_DIR/CLAUDE.md" "$GARAGE_DIR/CLAUDE.md"
-link "$SCRIPT_DIR/claude"    "$GARAGE_DIR/.claude"
-echo "Done."
+
+# Create .claude directory for individual config symlinks
+mkdir -p "$GARAGE_DIR/.claude"
+
+# Symlink individual Claude config subdirectories if they exist at top level
+for subdir in agents skills workflows; do
+  src="$SCRIPT_DIR/claude/$subdir"
+  dst="$GARAGE_DIR/.claude/$subdir"
+  if [ -e "$src" ]; then
+    link "$src" "$dst"
+  fi
+done
+
+# Symlink top-level settings file if it exists
+if [ -f "$SCRIPT_DIR/claude/settings.json" ]; then
+  mkdir -p "$GARAGE_DIR/.claude"
+  link "$SCRIPT_DIR/claude/settings.json" "$GARAGE_DIR/.claude/settings.json"
+fi
+
+echo "Done. (worktrees/ intentionally not symlinked)"
