@@ -73,15 +73,22 @@ Fields are dotted JSON paths. Common ones:
 
 ## Reading an event
 
-Each event is `{"event": {"json": {...}, "syslog": {...}}, "logmsg": "...", ...}`.
-The useful payload is under `event.json`:
+Each event from the iterate API looks like
+`{"timestamp": <epoch_ms>, "event": {"json": {...}}, "logmsg": "...", ...}`.
+The useful payload is under `event.json`; the **timestamp is a top-level field**
+on the event (Unix epoch **milliseconds**), *not* under `event.syslog` — there is
+no `event.syslog` on iterate results, so reading `ev['event']['syslog']['timestamp']`
+raises `KeyError`.
 
 ```python
 j = ev['event']['json']            # dict of structured fields
 msg   = j.get('message')           # the log line text
 sev   = j.get('severity')
 app   = j.get('application')
-ts    = ev['event']['syslog']['timestamp']
+ts    = ev.get('timestamp')        # top-level, epoch MILLISECONDS (use .get to be safe)
+# human-readable:
+from datetime import datetime, timezone
+when = datetime.fromtimestamp(int(ts) / 1000, tz=timezone.utc) if ts else None
 ```
 
 ## Counting / frequency estimates
