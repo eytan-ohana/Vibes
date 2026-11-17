@@ -9,7 +9,8 @@ description: >-
   "run/execute job Z", "deploy this branch". APIs are deployed as services.
   Critical: services whose deployment class inherits DockerGradualDeployment
   (e.g. FlexEngine) have a PROD canary stage that must be deployed and watched
-  before a prod full rollout.
+  before a prod full rollout. Every launched deploy is also announced in the
+  #ai-platform-deployments Slack channel.
 ---
 
 # Deploying with Shipit
@@ -42,6 +43,8 @@ the checkout (or git worktree) that is on the branch you want to deploy.
      first anyway, rather than silently skipping it.
 4. **Is it a gradual (canary) service?** If its deployment class subclasses
    `DockerGradualDeployment`, prod needs a **canary first** (see below).
+5. **Have the PR URL ready** for the Slack announcement below:
+   `gh pr view --json url -q .url` on the branch being deployed.
 
 ## How to run it
 
@@ -65,6 +68,59 @@ SHIPIT_CLEARS_TERMINAL=false PYTHONPATH=<checkout> \
 
 **Success looks like:** `Initiating Jenkins Deployment Pipeline...` followed by a
 `Jenkins build url: https://new-jenkins.trax-cloud.com/...`. Report that URL.
+
+## Announce it in Slack (required, every deploy)
+
+Every launched deploy gets announced in **#ai-platform-deployments**
+(`C0AQRL4TS6M`), as soon as Shipit prints the Jenkins build URL - the URL is
+part of the message, so this happens after the deploy is kicked off, not before.
+This is a standing instruction from the user for any deploy you launch: send it
+with `slack_send_message`, don't draft it and don't ask first.
+
+One message, two lines:
+
+```
+deploying `<SystemName>` from [<branch-name>](<pull-request-url>) to <ENV>
+<jenkins build url>
+```
+
+- **`<SystemName>`** in backticks, exactly as passed to Shipit (`SceneAnalysisEngine`).
+- **`<branch-name>`** is the deployed branch, linked to its PR. Get the URL with
+  `gh pr view --json url -q .url`. No PR for that branch (a bare `master` deploy,
+  say)? Post the branch name unlinked rather than inventing a link.
+- **`<ENV>`** is `INT`, `PROD CANARY`, or `PROD FULL` - the wording used in the
+  channel, and it distinguishes the two prod rollouts. A canary and a full
+  rollout are two deploys, so they get **two** messages, each with its own
+  Jenkins URL.
+- Markdown links are correct here; Slack renders `[text](url)` as its own link
+  format.
+
+Example:
+
+```
+deploying `SceneAnalysisEngine` from [AIP-372/scene-analysis-accept-scene-created-images](https://github.com/trax-retail/garage/pull/20264) to INT
+https://new-jenkins.trax-cloud.com/blue/organizations/jenkins/garage_deploy_service/detail/garage_deploy_service/1530/pipeline/
+```
+
+Report the Slack permalink alongside the Jenkins URL when you tell the user the
+deploy started.
+
+## Check whether a deploy finished
+
+Jenkins rejects unauthenticated calls (403), so use `scripts/check_build.py` in this
+skill, which reads the build with the same credentials Shipit uses. Take the build
+number and pipeline from the Jenkins URL Shipit printed: `garage_deploy_service` →
+`kind='service'` (services and APIs), `garage_deploy_job` → `kind='job'`.
+
+```bash
+cd <checkout>
+PYTHONPATH=<checkout> conda run -n garage38ai --no-capture-output python -c \
+  "import runpy; runpy.run_path('.claude/skills/trax-shipit-deploy/scripts/check_build.py')['check_build'](2279, kind='service')"
+```
+
+Output: `STATUS {... 'building': False, 'result': 'SUCCESS', ...}`. `building: True` means
+still running; once done, `result` is `SUCCESS`, `FAILURE` or `ABORTED`. Only promote
+to prod after `SUCCESS`.
 
 ## Services & APIs
 
